@@ -8,15 +8,24 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Setup node
+    - uses: actions/checkout@main
+    - name: Setup Node
       uses: actions/setup-node@v1
       with:
         node-version: '14.x'
         cache: 'npm'
-    - run: yarn
-    - run: yarn build
+    - name: Install packages
+      run: yarn
+    - name: Create build
+      run: yarn build
+    - name: Archive build
+      run: tar --dereference --hard-dereference --directory "build/" -cvf ${{ runner.temp }}/artifact.tar .
+    - name: Upload build to Github Pages
+      uses: actions/upload-artifact@main
+      with:
+        name: github-pages
+        path: ${{ runner.temp }}/artifact.tar
+        retention-days: 1
