@@ -25,15 +25,9 @@ jobs:
       run: yarn
     - name: Create build
       run: yarn build
-    - name: Archive build
-      run: tar --dereference --hard-dereference --directory "build/" -cvf ${{ runner.temp }}/artifact.tar .
-    - name: Upload build to Github Pages
-      uses: actions/upload-artifact@main
+    - name: Jekyll build
+      uses: actions/jekyll-build-pages@main
       with:
-        name: github-pages
-        path: ${{ runner.temp }}/artifact.tar
-        retention-days: 1
-    - name: Deploy Github Pages
-      uses: actions/deploy-pages@main
-      with:
+        source: ./build/
+        verbose: true
         token: ${{ secrets.GITHUB_TOKEN }}
