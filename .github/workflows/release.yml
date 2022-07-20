@@ -30,6 +30,6 @@ jobs:
         path: ${{ runner.temp }}/artifact.tar
         retention-days: 1
     - name: Deploy Github Pages
-      uses: actions/deploy-pages
+      uses: actions/deploy-pages@main
       with:
         token: ${{ github.token }}
